@@ -14,18 +14,20 @@ def index():
     return flask.render_template('index.html')
 
 
-@app.route('/upload_csv', methods=['POST'])
-def upload_file():
-
-        print(123)
-        # csvfile = request.files['sensor_data.csv']
-        file = request.files['file']
-        if file:
-            print('**found file', file.filename)
+@app.route('/csv_data/text', methods=['POST'])
+def parse_csv_text():
+    text_data = request.data.decode()
+    print(text_data)
+    return "ok1"
 
 
-        # reader = csv.DictReader(csvfile)
-        # data = [row for row in reader]
+@app.route('/csv_data/file', methods=['POST'])
+def parse_csv_file():
+    csv_file = request.files["file"]
+    print(csv_file)
+    return "ok2"
+
+
 
 if __name__ == '__main__':
     app.run()
