@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "a55d6ad7-9628-484a-9e62-1e9def669661",
+		"name": "sensor-data-reader",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST @ /csv_data/file",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/etr/Desktop/sensor_data.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/csv_data/file",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"csv_data",
+						"file"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST @ /csv_data/text",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "asd"
+				},
+				"url": {
+					"raw": "localhost:5000/csv_data/text",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"csv_data",
+						"text"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET@ /charts/<key>/<type>/html",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/etr/Desktop/sensor_data.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/chart/ZMNXGWE71M//temperature/html",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"chart",
+						"ZMNXGWE71M",
+						"",
+						"temperature",
+						"html"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET@ /charts/<key>/<type>/base64",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/etr/Desktop/sensor_data.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/charts/<key>/base64",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"charts",
+						"<key>",
+						"base64"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "abb931f8-365e-4775-8af2-f00b73643ca4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b3b07dd6-a7aa-4f98-8c65-98c8e3a437be",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
