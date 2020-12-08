@@ -119,6 +119,7 @@ footer a:hover {
     position: relative;
     width: 80px;
     height: 80px;
+    padding-top: 100px;
 }
 
 .lds-hourglass:after {
