@@ -32,6 +32,22 @@ body {
     border-radius: 70px;
 }
 
+#test-data-msg{
+    font-style: italic;
+}
+
+#test-data-msg a{
+    display: inline;
+    color: #343A40;
+    cursor: pointer;
+}
+
+#test-data-msg a:hover{
+    color: rgb(26, 29, 32);
+    text-decoration: underline;
+
+}
+
 h2 {
     margin: 50px 0;
     text-align: center;

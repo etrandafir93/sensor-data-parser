@@ -157,10 +157,11 @@ class SensorData:
 
     def __init__(self, csv_text_content):
         self.data = self.parse_csv_text(csv_text_content)
+        print(self.data)
 
     def parse_csv_text(self, text):
         text = text.replace("\ufeff", "")
-        rows = text.split("\r\n")
+        rows = text.split("\n")
         data = []
         for i in range(1, len(rows) - 1):
             row = rows[i]
