@@ -19,12 +19,24 @@
     <div class="file-drop-area">
         <span class="fake-btn">Choose .csv file</span>
         <span class="file-msg">or drag and drop files here</span>
-        <input class="file-input" id="up-file" type="file" multiple>
+        <input class="file-input" id="up-file" type="file" accept=".csv">
     </div>
 
     <button type="button" class="btn btn-dark mt-4 pl-5 pr-5" onclick="sendData()" style="color:#cff0ef">
         Analyze data!
     </button>
+
+    <div id="results" class="mt-4">
+        <div class="row">
+            <div id="temperature-chart" class="col chart-img"></div>
+            <div id="humidity-chart" class="col chart-img"></div>
+            <div id="speed-chart" class="col chart-img"></div>
+        </div>
+        <div class="row m-5">
+            <div id="presence1-chart" class="col chart-img pie"></div>
+            <div id="presence2-chart" class="col chart-img pie"></div>
+        </div>
+    </div>
 
     <style>
         body {
@@ -125,13 +137,23 @@
         footer a:hover {
             color: white;
         }
+
+        .chart-img{
+            text-align: center;
+        }
+
+        .chart-img img {
+            width: 90%;
+            max-width: 355px;
+            border-radius: 20px;
+        }
+
+        .pie img {
+            border-radius: 70px;
+        }
+
     </style>
 
-    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
-    <!--    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"-->
-    <!--        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"-->
-    <!--        crossorigin="anonymous"></script>-->
-    <!--    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
@@ -144,22 +166,47 @@
         }
 
         function sendData() {
-            console.log(11);
-            postCsvData(uploadedData, (res) => { console.log(res) });
+
+            // can either send the file or it's content
+            // postCsvData(uploadedData, (responseText) => {
+            //     requestCharts( JSON.parse(responseText) );
+            // });
+
+            postCsvFile(uploadedFile, (responseText) => {
+                requestCharts(JSON.parse(responseText));
+            });
         }
+
+        function requestCharts(postResponse) {
+            requestAndDisplaychart(postResponse.charts.html.temperature, "temperature-chart");
+            requestAndDisplaychart(postResponse.charts.html.humidity, "humidity-chart");
+            requestAndDisplaychart(postResponse.charts.html.speed, "speed-chart");
+
+            requestAndDisplaychart(postResponse.charts.html.presence1, "presence1-chart");
+            requestAndDisplaychart(postResponse.charts.html.presence2, "presence2-chart");
+        }
+
+        function requestAndDisplaychart(url, parentId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.onload = function () {
+                document.getElementById(parentId).innerHTML = this.responseText;
+            };
+            xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+            xhr.send(null);
+        }
+
 
         function handleFileSelect(evt) {
 
             var file = evt.target.files[0];
-            console.log(1);
-            postCsvFile(file, (r) => { console.log(r) });
+            window.uploadedFile = file;
 
             var reader = new FileReader();
 
             reader.onload = (function (file) {
                 return function (data) {
-                    console.log(file);
-                    console.log(data.target.result);
+                    console.log("fle uploaded", file);
                     window.uploadedData = data.target.result;
                 };
             })(file);
@@ -200,10 +247,10 @@
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/csv_data/text');
             xhr.onload = function () {
-                console.log(this.responseText);
+                callback(this.responseText);
             };
             xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-            xhr.send(data); 
+            xhr.send(data);
         }
 
         function postCsvFile(file, callback) {
@@ -214,7 +261,7 @@
             var xhr = new XMLHttpRequest();
             xhr.open('POST', "/csv_data/file");
             xhr.onload = function () {
-                console.log(this.responseText);
+                callback(this.responseText);
             };
             xhr.send(formData);
         }
