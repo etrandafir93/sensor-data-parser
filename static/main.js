@@ -29,20 +29,21 @@ function sendData() {
 
 
 function requestCharts(postResponse) {
-    requestAndDisplaychart(postResponse.charts.html.temperature, "temperature-chart", 500);
-    requestAndDisplaychart(postResponse.charts.html.humidity, "humidity-chart", 1000);
-    requestAndDisplaychart(postResponse.charts.html.speed, "speed-chart", 700);
-
-    requestAndDisplaychart(postResponse.charts.html.presence1, "presence1-chart", 1000);
-    requestAndDisplaychart(postResponse.charts.html.presence2, "presence2-chart", 2300);
+    requestAndDisplaychart(postResponse.charts.html.temperature, "temperature-chart", "Temperature over Time", 500);
+    requestAndDisplaychart(postResponse.charts.html.humidity, "humidity-chart", "Humidity over Time", 1000);
+    requestAndDisplaychart(postResponse.charts.html.speed, "speed-chart", "Speed over Time", 700);
+    requestAndDisplaychart(postResponse.charts.html.presence1, "presence1-chart", "Presence 'A' over 4 hours", 1000);
+    requestAndDisplaychart(postResponse.charts.html.presence2, "presence2-chart", "Presence 'B' over 4 hours", 2300);
 }
 
-function requestAndDisplaychart(url, parentId, delay) {
+function requestAndDisplaychart(url, parentId, title, delay) {
     startSpinner(parentId);
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.onload = function () {
-        setTimeout(() => { document.getElementById(parentId).innerHTML = this.responseText; }, delay);
+        let chartHtml = this.responseText;
+        let html = chartHtml + "<br><div>" + title + "</div>";
+        setTimeout(() => { document.getElementById(parentId).innerHTML = html; }, delay);
     };
     xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
     xhr.send(null);
@@ -164,10 +165,9 @@ function loadTestData() {
 -2.88,-9.58,38,30,83,53,0.19,0,0,12:02:30 AM,,16
 -9.61,-2.75,31,31,83,54,0.21,0,0,12:02:40 AM,,17
 -7.51,6.6,33,32,83,53,0.23,0,0,12:02:50 AM,,18
-1.5,9.89,26,33,83,52,0.25,0,0,12:03:00 AM,,19
-9.13,4.08,32,34,83,54,0.27,0,0,12:03:10 AM,,20
-8.37,-5.48,15,35,83,54,0.29,0,0,12:03:20 AM,,21
--0.09,-10,6,36,83,52,0.31,0,0,12:03:30 AM,,22`;
-
+1.5,9.89,26,33,83,52,0.25,1,0,12:03:00 AM,,19
+9.13,4.08,32,34,83,54,0.27,1,0,12:03:10 AM,,20
+8.37,-5.48,15,35,83,54,0.29,1,0,12:03:20 AM,,21
+-0.09,-10,6,36,83,52,0.31,1,0,12:03:30 AM,,22`;
 
 }
