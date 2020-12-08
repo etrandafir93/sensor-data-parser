@@ -11,6 +11,12 @@ from matplotlib.figure import Figure
 app = flask.Flask(__name__)
 
 
+@app.before_first_request
+def load_global_data():
+    global chart_generator
+    chart_generator = ChartGenerator()
+
+
 @app.route('/isAlive')
 def is_alive():
     return 'sensor-data-reader is alive!'
@@ -72,16 +78,15 @@ def generate_links_response(chart_key):
 
 
 def on_csv_data(csv_content):
-
     sensor_data = SensorData(csv_content)
     base_name = random_name(10)
     measurement_dates = sensor_data.get_dates()
 
-    chart_generator.temp_chart( measurement_dates, sensor_data.get_temperature_data(), base_name)
-    chart_generator.humidity_chart( measurement_dates, sensor_data.get_humidity_data(), base_name)
-    chart_generator.speed_chart( measurement_dates, sensor_data.get_speed_data(), base_name)
-    chart_generator.presence_chart( sensor_data.get_presence_data("presence_1"), base_name, "1")
-    chart_generator.presence_chart( sensor_data.get_presence_data("presence_2"), base_name, "2")
+    chart_generator.temp_chart(measurement_dates, sensor_data.get_temperature_data(), base_name)
+    chart_generator.humidity_chart(measurement_dates, sensor_data.get_humidity_data(), base_name)
+    chart_generator.speed_chart(measurement_dates, sensor_data.get_speed_data(), base_name)
+    chart_generator.presence_chart(sensor_data.get_presence_data("presence_1"), base_name, "1")
+    chart_generator.presence_chart(sensor_data.get_presence_data("presence_2"), base_name, "2")
 
     return base_name
 
@@ -203,10 +208,6 @@ class SensorData:
         y2 = list(map(lambda e: e['temp_2'], self.data))
         y3 = list(map(lambda e: e['temp_3'], self.data))
         return y1, y2, y3
-
-
-
-chart_generator = ChartGenerator()
 
 
 if __name__ == '__main__':
