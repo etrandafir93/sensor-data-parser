@@ -138,7 +138,7 @@
             color: white;
         }
 
-        .chart-img{
+        .chart-img { 
             text-align: center;
         }
 
@@ -152,6 +152,43 @@
             border-radius: 70px;
         }
 
+
+        /* spinner */
+        .lds-hourglass {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-hourglass:after {
+            content: " ";
+            display: block;
+            border-radius: 50%;
+            width: 0;
+            height: 0;
+            margin: 8px;
+            box-sizing: border-box;
+            border: 32px solid #fed;
+            border-color: #fed transparent #fed transparent;
+            animation: lds-hourglass 1.2s infinite;
+        }
+
+        @keyframes lds-hourglass {
+            0% {
+                transform: rotate(0);
+                animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+            }
+
+            50% {
+                transform: rotate(900deg);
+                animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+            }
+
+            100% {
+                transform: rotate(1800deg);
+            }
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -178,24 +215,30 @@
         }
 
         function requestCharts(postResponse) {
-            requestAndDisplaychart(postResponse.charts.html.temperature, "temperature-chart");
-            requestAndDisplaychart(postResponse.charts.html.humidity, "humidity-chart");
-            requestAndDisplaychart(postResponse.charts.html.speed, "speed-chart");
+            requestAndDisplaychart(postResponse.charts.html.temperature, "temperature-chart", 500);
+            requestAndDisplaychart(postResponse.charts.html.humidity, "humidity-chart", 800);
+            requestAndDisplaychart(postResponse.charts.html.speed, "speed-chart", 700);
 
-            requestAndDisplaychart(postResponse.charts.html.presence1, "presence1-chart");
-            requestAndDisplaychart(postResponse.charts.html.presence2, "presence2-chart");
+            requestAndDisplaychart(postResponse.charts.html.presence1, "presence1-chart", 1000);
+            requestAndDisplaychart(postResponse.charts.html.presence2, "presence2-chart", 500);
         }
+ 
 
-        function requestAndDisplaychart(url, parentId) {
+        function requestAndDisplaychart(url, parentId, delay) {
+            startSpinner(parentId);
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url);
             xhr.onload = function () {
-                document.getElementById(parentId).innerHTML = this.responseText;
+                setTimeout( ()=>{ document.getElementById(parentId).innerHTML = this.responseText; } , delay );
             };
             xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
             xhr.send(null);
         }
 
+        function startSpinner(parentId){
+            let spinnerHtml = `<div class="lds-hourglass"></div>`
+            document.getElementById(parentId).innerHTML = spinnerHtml;
+        }
 
         function handleFileSelect(evt) {
 
