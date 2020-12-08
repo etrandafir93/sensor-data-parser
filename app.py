@@ -100,8 +100,19 @@ class ChartGenerator:
     def __init__(self):
         self.base64_charts_map = {}
 
+    def save_as_base64(self, fig, key):
+        buf = BytesIO()
+        fig.savefig(buf, format="png")
+        base64_img = base64.b64encode(buf.getbuffer()).decode("ascii")
+        # self.base64_charts_map[key] = base64_img
+        f = open(".//charts//" + key + ".txt", "w")
+        f.write(base64_img)
+        f.close()
+
     def get_base64_chart(self, chart_key):
-        return self.base64_charts_map.get(chart_key)
+        # return self.base64_charts_map.get(chart_key)
+        f = open(".//charts//" + chart_key + ".txt", "r")
+        return f.read()
 
     def presence_chart(self, data, base_name, sufix):
         labels = 'present', 'not present'
@@ -150,12 +161,6 @@ class ChartGenerator:
         chart_name = base_name + "-temperature"
         self.save_as_base64(fig, chart_name)
         return chart_name;
-
-    def save_as_base64(self, fig, key):
-        buf = BytesIO()
-        fig.savefig(buf, format="png")
-        base64_img = base64.b64encode(buf.getbuffer()).decode("ascii")
-        self.base64_charts_map[key] = base64_img
 
 
 class SensorData:
