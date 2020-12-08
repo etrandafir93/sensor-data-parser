@@ -205,6 +205,9 @@ class SensorData:
         return y1, y2, y3
 
 
+
+chart_generator = ChartGenerator()
+
+
 if __name__ == '__main__':
-    chart_generator = ChartGenerator()
     app.run(port=5000)
