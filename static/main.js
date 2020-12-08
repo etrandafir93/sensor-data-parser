@@ -15,9 +15,6 @@ function sendData() {
     // });
 
     // can either send the file or it's content
-
-    console.log(uploadedData);
-    
     postCsvData(uploadedData, (responseText) => {
         try {
             requestCharts(JSON.parse(responseText));
@@ -103,7 +100,6 @@ function handleFileSelect(evt) {
 
     reader.onload = (function (file) {
         return function (data) {
-            console.log("fle uploaded", file);
             window.uploadedData = data.target.result;
         };
     })(file);
