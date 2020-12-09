@@ -1,0 +1,149 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  description: API description in Markdown.
+  title: Swagger Petstore
+
+paths:
+  /isAlive:
+    get:
+      summary: check if the server ready
+      tags:
+        - Sensor Data
+      responses:
+        '200':
+          description: The server is up and running
+        '404':
+          description: The is not rady or has not started
+        default:
+          description: unexpected error
+
+  /csv_data/text:
+    post:
+      summary: send sensor data as raw text
+      tags:
+        - Sensor Data
+      requestBody:
+        description: send the .csv content with the sensor output as plain text
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: The data has been parsed correctly and the links for the charts has been returned in the response body.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseModel"
+        '500':
+          description: Internal server error, probably a parsing issue.
+        default:
+          description: unexpected error
+
+  /csv_data/file:
+    post:
+      summary: send the .csv content with the sensor output as plain text
+      tags:
+        - Sensor Data
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: The data has been parsed correctly and the links for the charts has been returned in the response body.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseModel"
+
+        '500':
+          description: Internal server error, probably a parsing issue.
+        default:
+          description: unexpected error
+
+  /chart/{chart_key}/{chart_type}/html:
+    get:
+      summary: get charts as html mage
+      tags:
+        - Sensor Data
+      responses:
+        '200':
+          description: the html text that with that will render the chart
+      parameters:
+        - name: chart_key
+          in: path
+          required: true
+          description: The key related to the posted sensor data
+          schema:
+            type: string
+        - name: chart_type
+          in: path
+          required: true
+          description: The type of chart. Choose from [ temperature, humidity, presence1, presence2, speed ]
+          schema:
+            type: string
+
+  /chart/{chart_key}/{chart_type}/base64:
+    get:
+      summary: get charts as html mage
+      tags:
+        - Sensor Data
+      responses:
+        '200':
+          description: the base64 text that with that will render the chart
+      parameters:
+        - name: chart_key
+          in: path
+          required: true
+          description: The key related to the posted sensor data
+          schema:
+            type: string
+        - name: chart_type
+          in: path
+          required: true
+          description: The type of chart. Choose from [ temperature, humidity, presence1, presence2, speed ]
+          schema:
+            type: string
+
+
+components:
+  schemas:
+    ResponseModel:
+      type: "object"
+      properties:
+        key:
+          type: "string"
+        charts:
+          items:
+            $ref: "#/components/schemas/ChartModel"
+
+    ChartModel:
+      type: "object"
+      properties:
+        html:
+          items:
+            $ref: "#/components/schemas/ChartLinks"
+        base64:
+          items:
+            $ref: "#/components/schemas/ChartLinks"
+
+    ChartLinks:
+      properties:
+        temperature:
+          type: "string"
+        humidity:
+          type: "string"
+        speed:
+          type: "string"
+        presence1:
+          type: "string"
+        presence2:
+          type: "string"

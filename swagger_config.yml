@@ -1,0 +1,9 @@
+summary: "is alive"
+description: "Endpoint to check if the server is up and running"
+produces:
+- "text/plain"
+responses:
+  404:
+    description: "server not started"
+  200:
+    description: "server is ready"

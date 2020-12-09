@@ -18,6 +18,13 @@ body {
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+
+@media only screen and (min-width: 500px) { 
+    .col.chart-img{
+        width: 100%;
+    }
+}
+
 .chart-img {
     text-align: center;
 }

@@ -4,11 +4,29 @@ import random
 import string
 from io import BytesIO
 import flask
+from flask import request, Response, send_from_directory
+from flask_swagger_ui import get_swaggerui_blueprint
 
-from flask import request, Response
 from matplotlib.figure import Figure
 
 app = flask.Flask(__name__)
+
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.yaml'
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Sensor Data Parser"
+    }
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT)
+
+
+@app.route('/swagger/<path:path>')
+def bind_swagger(path):
+    print(path)
+    return send_from_directory('static',  path)
 
 
 @app.before_first_request
@@ -17,14 +35,14 @@ def load_global_data():
     chart_generator = ChartGenerator()
 
 
-@app.route('/isAlive')
-def is_alive():
-    return 'sensor-data-reader is alive!'
-
-
 @app.route('/')
 def bind_index():
     return flask.render_template('index.html')
+
+
+@app.route('/isAlive')
+def is_alive():
+    return Response('sensor-data-reader is alive!', mimetype='text/plain')
 
 
 @app.route('/csv_data/text', methods=['POST'])
@@ -213,6 +231,7 @@ class SensorData:
         y2 = list(map(lambda e: e['temp_2'], self.data))
         y3 = list(map(lambda e: e['temp_3'], self.data))
         return y1, y2, y3
+
 
 
 if __name__ == '__main__':
