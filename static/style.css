@@ -18,6 +18,9 @@ body {
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.inline{
+    display: inline
+}
 
 @media only screen and (min-width: 500px) { 
     .col.chart-img{
@@ -45,8 +48,11 @@ body {
 
 #test-data-msg a{
     display: inline;
-    color: #343A40;
     cursor: pointer;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 300;
+    font-size: 14px;
+    text-decoration: none;
 }
 
 #test-data-msg a:hover{
@@ -122,7 +128,7 @@ footer {
     margin-top: 50px;
 }
 
-footer a {
+a {
     color: rgba(255, 255, 255, 0.4);
     font-weight: 300;
     font-size: 14px;
