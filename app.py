@@ -1,10 +1,11 @@
 import base64
+import json
 from datetime import datetime
 import random
 import string
 from io import BytesIO
 import flask
-from flask import request, Response, send_from_directory
+from flask import request, Response, send_from_directory, make_response
 from flask_swagger_ui import get_swaggerui_blueprint
 
 from matplotlib.figure import Figure
@@ -28,7 +29,6 @@ def bind_swagger(path):
     print(path)
     return send_from_directory('static',  path)
 
-
 @app.before_first_request
 def load_global_data():
     global chart_generator
@@ -38,6 +38,7 @@ def load_global_data():
 @app.route('/')
 def bind_index():
     return flask.render_template('index.html')
+
 
 
 @app.route('/isAlive')
@@ -233,6 +234,10 @@ class SensorData:
         return y1, y2, y3
 
 
+@app.route('/debug', methods=['POST'])
+def debug_endpoint():
+    print( json.dumps(request.form) )
+    return make_response("", 200)
 
 if __name__ == '__main__':
     app.run(port=5000)
