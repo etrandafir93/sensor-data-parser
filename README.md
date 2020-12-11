@@ -1,7 +1,8 @@
 
-#Senor Data Parser
-####Facultatea de Inginerie Mecanica si Mecatronica
-#####Specializarea Robotica, grupa 542B
+# Senor Data Parser
+
+#### Facultatea de Inginerie Mecanica si Mecatronica
+##### Specializarea Robotica, grupa 542B
 
 
 Proiect: https://sensor-data-parser.herokuapp.com/
@@ -12,7 +13,7 @@ SwaggerUI: https://sensor-data-parser.herokuapp.com/swagger/
 
 
 
-##Introducere
+## Introducere
 	
 Se cerea realizarea unei aplicatii desktop care sa faciliteze parsarea unor fisiere csv ce contineau datele inregistrate de la diversi senzori si analizarea acestora.
 O alta functionalitate a aplicatiei era sa permita comunicarea cu un microcontroller pe serial.
@@ -22,7 +23,7 @@ Pentru puncte bonus, aplicatia trebuia sa permita comunicarea printr-un port TCP
 
 
 
-##Solutie proprie
+## Solutie proprie
 
 •	**Python**
 
