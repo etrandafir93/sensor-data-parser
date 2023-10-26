@@ -4,7 +4,7 @@ gunicorn==19.9.0
 itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
-Werkzeug==0.15.6
+Werkzeug==3.0.1
 matplotlib==3.3.3
 flask-swagger-ui==3.36.0
 pillow>=10.0.1 # not directly required, pinned by Snyk to avoid a vulnerability
